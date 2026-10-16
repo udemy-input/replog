@@ -9,5 +9,5 @@
     "noEmit": true,
     "skipLibCheck": true
   },
-  "include": ["server.ts", "src"]
+  "include": ["server.ts", "server", "src"]
 }
