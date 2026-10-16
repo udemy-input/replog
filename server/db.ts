@@ -40,5 +40,6 @@ db.exec(`
     ["L-Sit", "core", 2],
     ["Handstand an der Wand", "skill", 2],
     ["Front Lever Tuck", "skill", 3],
-  ] as const) add.run(name, category, level);
+  ] as const)
+    add.run(name, category, level);
 }

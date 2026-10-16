@@ -42,7 +42,9 @@ export async function handleApi(req: IncomingMessage, res: ServerResponse, url: 
       json(res, 400, { error: "date muss ein gültiges Datum im Format YYYY-MM-DD sein" });
       return true;
     }
-    const r = db.prepare("INSERT INTO workouts (date, minutes, notes) VALUES (?, ?, ?)").run(b.date, b.minutes, b.notes ?? null);
+    const r = db
+      .prepare("INSERT INTO workouts (date, minutes, notes) VALUES (?, ?, ?)")
+      .run(b.date, b.minutes, b.notes ?? null);
     json(res, 201, { id: Number(r.lastInsertRowid) });
     return true;
   }
