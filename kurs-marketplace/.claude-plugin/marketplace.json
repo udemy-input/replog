@@ -1,0 +1,18 @@
+{
+  "name": "kurs",
+  "owner": {
+    "name": "RepLog-Kurs",
+    "email": "343847897+udemy-input@users.noreply.github.com"
+  },
+  "metadata": {
+    "description": "Marketplace zum Kurs „Claude Code in der Praxis“"
+  },
+  "plugins": [
+    {
+      "name": "replog-toolkit",
+      "source": "./plugins/replog-toolkit",
+      "description": "Claude-Code-Setup für RepLog: Subagents, Skill, Hooks und Playwright-MCP",
+      "version": "1.0.0"
+    }
+  ]
+}

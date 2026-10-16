@@ -1,0 +1,10 @@
+{
+  "name": "replog-toolkit",
+  "version": "1.0.0",
+  "description": "Claude-Code-Setup für RepLog: Subagents code-reviewer und test-writer, Skill neue-uebung, Hooks (Schutz, Formatierung, Tests grün, Benachrichtigung, Testdatei-Sperre) und Playwright-MCP",
+  "author": {
+    "name": "RepLog-Kurs",
+    "email": "343847897+udemy-input@users.noreply.github.com"
+  },
+  "keywords": ["replog", "calisthenics", "kurs"]
+}
