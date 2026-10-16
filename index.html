@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RepLog</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Rep<span>Log</span></h1>
+      <section class="stat">
+        <b id="weekly">–</b>
+        <span>Trainingsminuten in den letzten 7 Tagen</span>
+      </section>
+      <section>
+        <h2>Training eintragen</h2>
+        <form id="workout-form">
+          <input name="date" type="date" required />
+          <input name="minutes" type="number" min="1" placeholder="Minuten" required />
+          <input name="notes" placeholder="Notiz (optional)" />
+          <button>Speichern</button>
+        </form>
+      </section>
+      <section>
+        <h2>Letzte Trainings</h2>
+        <ul id="workouts"></ul>
+      </section>
+      <section>
+        <h2>Übungen</h2>
+        <ul id="exercises"></ul>
+      </section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

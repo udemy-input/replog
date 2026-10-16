@@ -1,0 +1,22 @@
+{
+  "name": "replog",
+  "version": "0.1.0",
+  "private": true,
+  "description": "RepLog – Calisthenics-Trainingstracker (Kursprojekt „Claude Code in der Praxis“)",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "dev": "tsx server.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.23.0",
+    "typescript": "^5.9.0",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.0"
+  }
+}
