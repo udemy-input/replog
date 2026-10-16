@@ -1,3 +1,5 @@
+import { escapeHtml, fehlerAusAntwort } from "./helfer";
+
 type Exercise = { id: number; name: string; category: string; level: number };
 type Workout = { id: number; date: string; minutes: number; notes: string | null };
 
@@ -11,23 +13,45 @@ async function load() {
   ]);
 
   $("#weekly").textContent = String(stats.weeklyMinutes);
+  // Alle Werte aus der Datenbank maskieren, bevor sie per innerHTML eingesetzt werden
   $("#workouts").innerHTML = workouts
-    .map((w) => `<li><b>${w.date}</b> · ${w.minutes} min${w.notes ? ` · ${w.notes}` : ""}</li>`)
+    .map(
+      (w) =>
+        `<li><b>${escapeHtml(w.date)}</b> · ${escapeHtml(w.minutes)} min${w.notes ? ` · ${escapeHtml(w.notes)}` : ""}</li>`,
+    )
     .join("");
   $("#exercises").innerHTML = exercises
-    .map((e) => `<li>${e.name} <small>${e.category} · Level ${e.level}</small></li>`)
+    .map(
+      (e) =>
+        `<li>${escapeHtml(e.name)} <small>${escapeHtml(e.category)} · Level ${escapeHtml(e.level)}</small></li>`,
+    )
     .join("");
+}
+
+function zeigeFehler(meldung: string | null) {
+  const el = $("#form-error");
+  el.textContent = meldung ?? "";
+  el.hidden = !meldung;
 }
 
 $<HTMLFormElement>("#workout-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   const form = event.target as HTMLFormElement;
   const data = Object.fromEntries(new FormData(form));
-  await fetch("/api/workouts", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...data, minutes: Number(data.minutes) }),
-  });
+  let fehler: string | null;
+  try {
+    const res = await fetch("/api/workouts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...data, minutes: Number(data.minutes) }),
+    });
+    fehler = await fehlerAusAntwort(res);
+  } catch {
+    fehler = "Speichern fehlgeschlagen: Server nicht erreichbar.";
+  }
+  zeigeFehler(fehler);
+  // Eingaben nur bei Erfolg leeren, damit nichts verloren geht
+  if (fehler) return;
   form.reset();
   load();
 });
