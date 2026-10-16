@@ -25,12 +25,14 @@ db.exec(`
   );
 `);
 
-const count = db.prepare("SELECT COUNT(*) AS n FROM exercises").get() as { n: number };
-if (count.n === 0) {
-  const add = db.prepare("INSERT INTO exercises (name, category, level) VALUES (?, ?, ?)");
+// Startdaten: INSERT OR IGNORE, damit neu ergänzte Übungen auch in bestehenden
+// Datenbanken ankommen (name ist UNIQUE, vorhandene Einträge bleiben unverändert)
+{
+  const add = db.prepare("INSERT OR IGNORE INTO exercises (name, category, level) VALUES (?, ?, ?)");
   for (const [name, category, level] of [
     ["Klimmzüge", "pull", 2],
     ["Australian Rows", "pull", 1],
+    ["Muscle-up", "pull", 4],
     ["Dips", "push", 2],
     ["Liegestütze", "push", 1],
     ["Pike Push-ups", "push", 2],
