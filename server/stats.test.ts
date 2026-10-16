@@ -220,3 +220,119 @@ describe("weeklyMinutes – Einträge in der Zukunft", () => {
     expect(weeklyMinutes()).toBe(0);
   });
 });
+
+describe("weeklyMinutes – Jahreswechsel", () => {
+  it("summiert über den Jahreswechsel hinweg (heute-6 liegt im Vorjahr)", () => {
+    setLocalNow(2027, 1, 3);
+    addWorkout("2026-12-28", 15); // heute-6 → zählt
+    addWorkout("2026-12-31", 20);
+    addWorkout("2027-01-01", 25);
+    addWorkout("2027-01-03", 30);
+    expect(weeklyMinutes()).toBe(90);
+  });
+
+  it("schließt heute-7 im Vorjahr aus", () => {
+    setLocalNow(2027, 1, 3);
+    addWorkout("2026-12-27", 40); // heute-7 → zählt nicht
+    addWorkout("2026-12-28", 15);
+    expect(weeklyMinutes()).toBe(15);
+  });
+
+  it("Neujahr 00:15 Europe/Berlin (UTC noch Silvester): Fenster korrekt", () => {
+    setLocalNow(2027, 1, 1, 0, 15);
+    // Plausibilitätsprüfung: UTC ist noch im alten Jahr
+    expect(new Date().toISOString().slice(0, 10)).toBe("2026-12-31");
+    addWorkout("2027-01-01", 30);
+    addWorkout("2026-12-26", 10); // heute-6 → zählt
+    addWorkout("2026-12-25", 50); // heute-7 → zählt nicht
+    expect(weeklyMinutes()).toBe(40);
+  });
+
+  it("Silvester 23:59: Eintrag von Neujahr (Zukunft) zählt nicht", () => {
+    setLocalNow(2026, 12, 31, 23, 59);
+    addWorkout("2026-12-31", 20);
+    addWorkout("2027-01-01", 30);
+    expect(weeklyMinutes()).toBe(20);
+  });
+
+  it("America/New_York Silvester 23:30 (UTC schon im neuen Jahr): Neujahr zählt nicht", () => {
+    process.env.TZ = "America/New_York";
+    setLocalNow(2026, 12, 31, 23, 30);
+    expect(new Date().toISOString().slice(0, 10)).toBe("2027-01-01");
+    addWorkout("2026-12-25", 10); // heute-6 → zählt
+    addWorkout("2026-12-31", 20);
+    addWorkout("2027-01-01", 30); // morgen → zählt nicht
+    expect(weeklyMinutes()).toBe(30);
+  });
+});
+
+describe("weeklyMinutes – Beginn der Sommerzeit", () => {
+  // 29.03.2026: in Europe/Berlin springt die Uhr um 02:00 auf 03:00 (Tag hat 23 Stunden)
+
+  it("über die Zeitumstellung hinweg bleibt die Fenstergrenze korrekt (mittags)", () => {
+    setLocalNow(2026, 4, 1, 12, 0);
+    addWorkout("2026-03-26", 15); // heute-6 → zählt
+    addWorkout("2026-03-25", 50); // heute-7 → zählt nicht
+    addWorkout("2026-03-29", 20); // Tag der Umstellung → zählt
+    expect(weeklyMinutes()).toBe(35);
+  });
+
+  it("über die Zeitumstellung hinweg bleibt die Fenstergrenze korrekt (00:15)", () => {
+    setLocalNow(2026, 4, 1, 0, 15);
+    addWorkout("2026-03-26", 15);
+    addWorkout("2026-03-25", 50);
+    expect(weeklyMinutes()).toBe(15);
+  });
+
+  it("23:59 am Tag nach der Umstellung: Fenstergrenzen korrekt", () => {
+    setLocalNow(2026, 3, 30, 23, 59);
+    addWorkout("2026-03-24", 15); // heute-6 → zählt
+    addWorkout("2026-03-23", 50); // heute-7 → zählt nicht
+    addWorkout("2026-03-31", 30); // morgen → zählt nicht
+    expect(weeklyMinutes()).toBe(15);
+  });
+
+  it("Tag der Umstellung als erster Tag im Fenster (heute-6)", () => {
+    setLocalNow(2026, 4, 4, 0, 15);
+    addWorkout("2026-03-29", 15); // heute-6 → zählt
+    addWorkout("2026-03-28", 50); // heute-7 → zählt nicht
+    expect(weeklyMinutes()).toBe(15);
+  });
+
+  it("am Tag der Umstellung liefern alle Uhrzeiten vor und nach dem Sprung dasselbe Ergebnis", () => {
+    for (const d of ["2026-03-22", "2026-03-23", "2026-03-29", "2026-03-30"]) addWorkout(d, 10);
+    const ergebnisse = [
+      [0, 0],
+      [1, 59],
+      [3, 0],
+      [12, 0],
+      [23, 59],
+    ].map(([h, m]) => {
+      setLocalNow(2026, 3, 29, h, m);
+      return weeklyMinutes();
+    });
+    // 23.03. (heute-6) und 29.03. zählen, 22.03. (heute-7) und 30.03. (morgen) nicht
+    expect(ergebnisse).toEqual([20, 20, 20, 20, 20]);
+  });
+
+  it("nicht existierende Uhrzeit 02:30 am Tag der Umstellung", () => {
+    // new Date(2026, 2, 29, 2, 30) wird zu 03:30 Sommerzeit – gleicher Kalendertag
+    setLocalNow(2026, 3, 29, 2, 30);
+    expect(new Date().getDate()).toBe(29);
+    addWorkout("2026-03-29", 30);
+    addWorkout("2026-03-23", 10); // heute-6 → zählt
+    addWorkout("2026-03-22", 50); // heute-7 → zählt nicht
+    expect(weeklyMinutes()).toBe(40);
+  });
+
+  it("America/New_York: über den Beginn der Sommerzeit (08.03.2026) hinweg", () => {
+    process.env.TZ = "America/New_York";
+    setLocalNow(2026, 3, 11, 23, 30);
+    // Plausibilitätsprüfung: UTC ist schon der Folgetag
+    expect(new Date().toISOString().slice(0, 10)).toBe("2026-03-12");
+    addWorkout("2026-03-05", 15); // heute-6 → zählt
+    addWorkout("2026-03-04", 50); // heute-7 → zählt nicht
+    addWorkout("2026-03-12", 30); // morgen → zählt nicht
+    expect(weeklyMinutes()).toBe(15);
+  });
+});
