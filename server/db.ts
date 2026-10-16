@@ -38,6 +38,7 @@ db.exec(`
     ["Pike Push-ups", "push", 2],
     ["Pistol Squats", "legs", 3],
     ["L-Sit", "core", 2],
+    ["Handstand an der Wand", "skill", 2],
     ["Front Lever Tuck", "skill", 3],
   ] as const) add.run(name, category, level);
 }

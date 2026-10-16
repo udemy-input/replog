@@ -35,6 +35,12 @@ describe("Startdaten", () => {
     db.close();
   });
 
+  it("legt Handstand an der Wand in einer neuen Datenbank an", async () => {
+    const db = await ladeDb(join(dir, "neu.db"));
+    expect(findeUebung(db, "Handstand an der Wand")).toEqual({ category: "skill", level: 2 });
+    db.close();
+  });
+
   it("ergänzt Muscle-up in einer bestehenden Datenbank", async () => {
     const file = join(dir, "alt.db");
     const alt = new DatabaseSync(file);
@@ -51,6 +57,7 @@ describe("Startdaten", () => {
 
     const db = await ladeDb(file);
     expect(findeUebung(db, "Muscle-up")).toEqual({ category: "pull", level: 4 });
+    expect(findeUebung(db, "Handstand an der Wand")).toEqual({ category: "skill", level: 2 });
     // Vorhandene Übungen werden nicht doppelt angelegt
     const n = db.prepare("SELECT COUNT(*) AS n FROM exercises WHERE name = 'Klimmzüge'").get();
     expect(n).toEqual({ n: 1 });
