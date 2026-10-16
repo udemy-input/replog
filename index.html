@@ -14,11 +14,17 @@
         <span>Trainingsminuten in den letzten 7 Tagen</span>
       </section>
       <section>
+        <h2>Progressions-Coach</h2>
+        <ul id="coach" class="coach"></ul>
+      </section>
+      <section>
         <h2>Training eintragen</h2>
         <form id="workout-form">
           <input name="date" type="date" required />
           <input name="minutes" type="number" min="1" placeholder="Minuten" required />
           <input name="notes" placeholder="Notiz (optional)" />
+          <div id="saetze" class="saetze"></div>
+          <button type="button" id="satz-hinzufuegen" class="nebenbutton" disabled>+ Übung hinzufügen</button>
           <button>Speichern</button>
         </form>
         <p id="form-error" class="error" role="alert" hidden></p>

@@ -2,7 +2,7 @@
 import { db } from "./db";
 
 // Lokales Kalenderdatum als ISO-String YYYY-MM-DD (nicht UTC wie toISOString)
-function localIsoDate(d: Date) {
+export function localIsoDate(d: Date) {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");
   const day = String(d.getDate()).padStart(2, "0");

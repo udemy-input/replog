@@ -78,6 +78,51 @@ small {
   color: var(--muted);
   margin-left: 8px;
 }
+select {
+  font: inherit;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #3a2e27;
+  background: var(--card);
+  color: var(--fg);
+}
+.saetze {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.saetze:empty {
+  display: none;
+}
+.satz {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.satz-anzahl,
+.satz-wert {
+  width: 5em;
+}
+.nebenbutton {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.coach li {
+  border-left: 4px solid #3a2e27;
+}
+.coach li.aufsteigen {
+  border-left-color: var(--accent);
+}
+.coach li.maximum {
+  border-left-color: var(--muted);
+}
 .error {
   color: #ff8a80;
   margin: 12px 0 0;
