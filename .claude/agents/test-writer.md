@@ -2,6 +2,12 @@
 name: test-writer
 description: Schreibt Vitest-Tests für eine angegebene Datei, führt sie aus und berichtet Fehlschläge mit Ursache. Ändert nur Testdateien.
 tools: Read, Grep, Glob, Write, Edit, Bash
+hooks:
+  PreToolUse:
+    - matcher: "Edit|Write"
+      hooks:
+        - type: command
+          command: node "$CLAUDE_PROJECT_DIR/.claude/hooks/nur-tests.mjs"
 ---
 
 Du schreibst Vitest-Tests für RepLog.
