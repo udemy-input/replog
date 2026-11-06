@@ -12,7 +12,6 @@ Die Nummern folgen den Videos: 3.4-a = Sektion 3, Lektion 3.4, erster Prompt. G 
 
 - Einstieg (1)
 - Grundlagen für Einsteiger (7)
-- Praxis-Werkstatt: Claude Code im Alltag (19)
 - Sektion 1 – Kontext-Management (10)
 - Sektion 2 – Permissions & Sicherheit (5)
 - Sektion 3 – Subagents (6)
@@ -21,6 +20,7 @@ Die Nummern folgen den Videos: 3.4-a = Sektion 3, Lektion 3.4, erster Prompt. G 
 - Sektion 6 – MCP (5)
 - Sektion 7 – Plugins (3)
 - Sektion 8 – Abschluss (3)
+- Praxis-Werkstatt: Claude Code im Alltag (19)
 - Extra: Limits & Kosten im Griff (5)
 - Extra: Mods – Claude Code selbst erweitern (12)
 - Extra: Claude arbeitet, während du weg bist (7)
@@ -121,212 +121,6 @@ Speichere den aktuellen Stand mit einer passenden Beschreibung.
 ```text
 Mach den letzten Commit rückgängig.
 ```
-
-## Praxis-Werkstatt: Claude Code im Alltag
-
-Die Werkstatt arbeitet mit dem fertigen RepLog (Tag L8.2-ende, 232 Tests) – immer in einer Wegwerf-Kopie. Am einfachsten: replog_Werkstatt-start.zip entpacken oder git checkout L8.2-ende. Andere Lektionen brauchen nur einen eigenen Ordner.
-
-### W.1 · Gute Aufträge schreiben
-
-*Start: L8.2-ende (fertiges RepLog) · zwei Kopien*
-
-#### W.1-a · Der vage Auftrag (Kopie 1) (Demo)
-
-```text
-Mach die Statistik besser.
-```
-
-> Ergebnis: Claude ändert nichts und fragt zurück, was „besser“ heißen soll.
-
-#### W.1-b · Der klare Auftrag (Kopie 2) (Demo)
-
-```text
-Ziel: Auf der Startseite soll unter der Wochenstatistik eine Zeile stehen: „Längstes Training der letzten 7 Tage: X Minuten (Datum)“. Kontext: Wo die Wochenstatistik berechnet wird, findest du selbst heraus. Grenzen: keine neuen Pakete, Texte auf Deutsch, bestehende Tests nicht ändern. Fertig ist es, wenn ein neuer Test die Berechnung prüft, alle Tests grün sind und der Typecheck fehlerfrei ist. Fasse am Ende in drei Sätzen zusammen, was du geändert hast.
-```
-
-> Vier Teile: Ziel · Kontext · Grenzen · Fertig, wenn … Im Video ohne den letzten Satz eingeblendet.
-
-#### W.1-c · Nachdem die Befehle freigegeben sind (Folgefrage)
-
-```text
-Die Befehle sind jetzt freigegeben. Führe npm test und npm run typecheck aus und behebe eventuelle Fehler. Antworte am Ende in zwei Sätzen.
-```
-
-> Danach: 238 von 238 Tests grün.
-
-### W.2 · Fehlersuche mit Claude
-
-*Start: L8.2-ende (fertiges RepLog) · Kopie mit eingebautem Fehler*
-
-#### W.2-a · Fehler nur über das Symptom beschreiben (Demo)
-
-```text
-Die Wochenstatistik zeigt seit heute immer 0 Minuten an, obwohl ich heute und gestern trainiert und beides eingetragen habe. Finde die Ursache, schreib zuerst einen Test, der den Fehler zeigt, und behebe ihn dann. Erkläre am Ende in drei Sätzen, was die Ursache war.
-```
-
-> Zum Nachstellen vorher absichtlich einen Fehler einbauen und committen: in server/stats.ts, Funktion localIsoDate, das „+ 1“ beim Monat entfernen.
-
-### W.3 · Bilder und Screenshots an Claude geben
-
-*Start: L8.2-ende (fertiges RepLog) · Kopie mit eingebautem Fehler*
-
-#### W.3-a · Bildschirmfoto mitgeben (Demo)
-
-```text
-Schau dir das Bildschirmfoto bildschirm.png an. Oben im Kasten fehlt die große Zahl mit den Trainingsminuten – die API liefert aber 45. Finde die Ursache und behebe sie. Erkläre am Ende in zwei Sätzen, was los war.
-```
-
-> Vorher eingebaut: eine CSS-Regel, die die große Zahl unsichtbar macht (.stat b { color: var(--card); }). bildschirm.png ist dein eigenes Bildschirmfoto der Startseite.
-
-### W.4 · Trainingsdaten auswerten – ohne eine Zeile Code
-
-*Start: eigener Ordner mit Daten*
-
-#### W.4-a · Trainingslog auswerten (Demo)
-
-```text
-In training.csv steht mein Trainingslog der letzten 12 Wochen. Werte ihn für mich als Calisthenics-Coach aus: Wie viele Trainingstage pro Woche? Wie haben sich Klimmzüge, Dips und Plank entwickelt? Gab es Wochen, in denen ich weniger trainiert habe? Schreib mir eine kurze Auswertung in auswertung.md und erstelle eine Datei diagramm.html, die die Entwicklung der Klimmzug-Wiederholungen als einfaches Liniendiagramm zeigt – ohne externe Pakete oder Internet.
-```
-
-> training.csv war eine Beispieldatei (12 Wochen, Klimmzüge, Dips, Plank). Nimm deine eigene Tabelle.
-
-#### W.4-b · Zusatz: ganzer Ordner + wiederverwendbares Programm (Demo)
-
-```text
-Im Ordner logs liegen 12 Monatsdateien mit den Klimmzug-Werten meiner drei Athleten. Werte alle zusammen aus: Entwicklung pro Athlet, wer stagniert, fehlen irgendwo Daten? Schreib das Ergebnis in bericht.md. Und ganz wichtig: Speichere dein Auswertungsprogramm als auswertung.py, damit ich es jeden Monat mit einem Befehl wieder laufen lassen kann.
-```
-
-> Zusatz „Nur mit Claude Code“: Ordner logs mit 12 Monatsdateien (Beispieldaten).
-
-### W.5 · Texte und Dokumentation schreiben lassen
-
-*Start: Trainingsplan-Generator v1.1*
-
-#### W.5-a · README und CHANGELOG aus dem Projekt ableiten (Demo)
-
-```text
-Schreib für dieses Projekt zwei Dateien: eine README.md für Leute ohne Programmiererfahrung (Was macht die App, wie starte ich sie, wie benutze ich sie) und eine CHANGELOG.md, die du aus dem Git-Verlauf und den Tags ableitest. Erfinde nichts, was nicht im Code oder im Verlauf steht. Sag mir am Ende, welche Angaben du nicht sicher prüfen konntest.
-```
-
-> Lief in einer frischen Kopie des Trainingsplan-Generators (github.com/udemy-input/trainingsplan, Stand v1.1). Funktioniert genauso in RepLog.
-
-### W.6 · Im Internet recherchieren lassen
-
-*Start: L8.2-ende (fertiges RepLog)*
-
-#### W.6-a · Recherche mit Quellen (Demo)
-
-```text
-Recherchiere im Internet: Welche Node.js-Version ist aktuell die empfohlene LTS-Version, und bis wann wird sie unterstützt? Nutze nur offizielle Quellen, nenne zu jeder Aussage die Quelle als Link, und sag mir, wenn sich Quellen widersprechen oder etwas unsicher ist. Antworte kurz.
-```
-
-#### W.6-b · Zusatz: Recherche am eigenen Projekt prüfen (Demo)
-
-```text
-Laut offizieller Node.js-Seite ist Node 24 die aktuelle LTS-Version, und Node 26 wird am 28.10.2026 LTS. Prüf für dieses Projekt: Welche Node-Version läuft hier gerade? Welche Mindestversion steht in package.json und README? Laufen die Tests mit der installierten Version? Passe die Angabe in der README an, falls sie nicht mehr stimmt, und sag mir, was du geändert hast.
-```
-
-> Zusatz „Nur mit Claude Code“, in RepLog. Die Versionsangaben im Auftrag stammen aus der Recherche vom 18.10.2026 – setze ein, was deine Recherche ergibt.
-
-### W.7 · Eine Webseite von null
-
-*Start: leerer Ordner*
-
-#### W.7-a · Webseite von null (Demo)
-
-```text
-Bau mir in diesem leeren Ordner eine einfache Webseite für eine Calisthenics-Trainingsgruppe im Park. Inhalt: Überschrift, kurzer Willkommenstext, Trainingszeiten Dienstag und Donnerstag 18:30 Uhr, Treffpunkt „Stadtpark, bei den Klimmzugstangen“, was man mitbringen soll, und ein Button „Probetraining anfragen“, der eine E-Mail an gruppe@example.com öffnet. Eine einzige Datei index.html, ohne externe Bibliotheken oder Schriften aus dem Internet, gut lesbar auf dem Handy. Erfinde keine weiteren Fakten wie Preise oder Namen.
-```
-
-> gruppe@example.com ist eine Platzhalter-Adresse.
-
-#### W.7-b · Zusatz: Seite selbst im Browser testen (Demo)
-
-```text
-Öffne index.html selbst im Browser und prüf die Seite wie ein strenger Tester: einmal in Desktop-Breite und einmal in Handy-Breite (390 Pixel). Funktioniert der Button? Ist alles lesbar, läuft nichts über den Rand? Behebe, was du findest, prüfe danach noch einmal im Browser, und speichere den fertigen Stand als Git-Commit mit einer passenden Nachricht.
-```
-
-> Zusatz „Nur mit Claude Code“. Braucht den Playwright-MCP-Server aus Sektion 6 und ein Git-Repo im Ordner.
-
-### W.8 · Claude als zweite Meinung
-
-*Start: eigener Ordner mit Entwurf*
-
-#### W.8-a · Entwurf kritisch prüfen lassen (Demo)
-
-```text
-Lies plan_anfaenger.md. Das ist ein Entwurf für eine Gruppe absoluter Einsteiger. Prüf ihn kritisch wie ein erfahrener Calisthenics-Coach: Was ist gut, was ist riskant, was fehlt? Sortiere nach Wichtigkeit. Ändere die Datei nicht. Sag am Ende ehrlich, was du ohne die Menschen zu kennen nicht beurteilen kannst.
-```
-
-> plan_anfaenger.md war ein Beispiel-Entwurf mit absichtlichen Schwächen.
-
-#### W.8-b · Zusatz: Pläne gegen eigene Regeln prüfen (Demo)
-
-```text
-Prüf alle Trainingspläne im Ordner plaene gegen meine Coaching-Regeln aus der CLAUDE.md. Schreib mir einen Bericht pruefbericht.md: pro Plan, welche Regel verletzt ist und warum, und am Ende eine Übersicht, welche Pläne ich sofort überarbeiten muss. Ändere die Pläne selbst nicht.
-```
-
-> Zusatz „Nur mit Claude Code“: Ordner plaene mit fünf Plänen, die Coaching-Regeln stehen in der CLAUDE.md desselben Ordners.
-
-### W.10 · Code erklären lassen
-
-*Start: L8.2-ende (fertiges RepLog)*
-
-#### W.10-a · Code erklären lassen, ohne Änderungen (Demo)
-
-```text
-Ich bin Anfänger. Erklär mir die Datei server/stats.ts so, dass ich sie verstehe: Was macht sie, Zeile für Zeile in einfachen Worten, und warum gibt es die Funktion localIsoDate überhaupt? Ändere nichts.
-```
-
-### W.11 · Dateien aufräumen lassen
-
-*Start: Übungsordner Downloads*
-
-#### W.11-a · Erst den Plan, noch nichts verschieben (Demo)
-
-```text
-Im Ordner ./Downloads hier im aktuellen Verzeichnis (nicht im Benutzerordner!) ist Chaos. Räum ihn auf: sinnvolle Unterordner nach Art der Dateien, Bildschirmfotos zusätzlich nach Monat. Lösche nichts. Zeig mir zuerst nur deinen Plan als Liste – verschiebe noch nichts.
-```
-
-> Wichtig ist „./Downloads hier im aktuellen Verzeichnis“: Beim ersten Versuch ohne diesen Zusatz hat Claude den Downloads-Ordner im Benutzerverzeichnis genommen. Lege dir einen Übungsordner an.
-
-#### W.11-b · Plan freigeben und umsetzen (Folgefrage)
-
-```text
-Passt so, Dokumente bitte flach lassen, Namen ohne Nummern. Setz den Plan um und zeig mir am Ende die neue Ordnerstruktur.
-```
-
-> Im Video gekürzt eingeblendet.
-
-### W.12 · Vom Kursvideo zum Instagram-Clip
-
-*Start: Ordner mit einer eigenen Aufnahme*
-
-#### W.12-a · Vom Kursvideo zum Instagram-Clip (Demo)
-
-```text
-In aufnahme.mp4 bin ich zu sehen, wie ich über ein Projekt spreche (Querformat, Deutsch). Mach mir daraus einen Instagram-Clip: Finde die stärksten 20 bis 30 Sekunden am Stück, schneide sie heraus, bring sie ins Hochformat 9:16 (mein Gesicht muss im Bild bleiben) und brenn gut lesbare deutsche Untertitel ein, Wort für Wort genau so, wie ich spreche. Nutze dafür nur Werkzeuge, die auf diesem Rechner schon installiert sind (ffmpeg, Python mit faster-whisper). Speichere das Ergebnis als clip.mp4 und erklär mir kurz, warum du genau diese Stelle gewählt hast. Prüfe das Ergebnis selbst, bevor du fertig meldest.
-```
-
-> Setzt voraus, dass ffmpeg und Python mit faster-whisper auf deinem Rechner installiert sind.
-
-### W.13 · Ein Mini-Funnel an einem Nachmittag
-
-*Start: leerer Ordner*
-
-#### W.13-a · Mini-Funnel mit Browser-Test (Demo)
-
-```text
-Bau mir in diesem leeren Ordner einen kompletten kleinen Funnel für ein fiktives Angebot „4-Wochen-Calisthenics-Start“ (Online-Kurs für Einsteiger, Preis noch offen – schreib keinen Preis hin). Bestandteile:
-1. Landingpage mit Nutzenversprechen, Ablauf der 4 Wochen, häufigen Fragen und Button zur Anmeldung.
-2. Anmeldeformular (Name, E-Mail, Erfahrungsstufe). Die Anmeldungen speichert ein kleiner lokaler Server in anmeldungen.csv – nur mit Node.js-Bordmitteln, ohne Zusatzpakete.
-3. Danke-Seite nach dem Absenden.
-4. Drei Begrüßungs-E-Mails als Textvorlagen (Tag 0, Tag 2, Tag 7) im Ordner emails.
-5. Ein Skript, das die Anmeldungen auswertet (Anzahl, Verteilung der Erfahrungsstufen).
-Starte danach den Server, öffne die Seite selbst im Browser und spiel den ganzen Ablauf zweimal als Testnutzer durch – einmal in Desktop-Breite, einmal in Handy-Breite: Landingpage → Formular → Danke-Seite. Prüfe, ob die Anmeldungen in der CSV landen, und lass das Auswertungsskript laufen. Behebe, was nicht funktioniert. Erfinde keine Kundenstimmen, Zahlen oder Namen. Speichere den fertigen Stand als Git-Commit und fasse am Ende zusammen, was du gebaut und geprüft hast.
-```
-
-> Braucht Node.js, den Playwright-MCP-Server aus Sektion 6 und ein Git-Repo im Ordner.
 
 ## Sektion 1 – Kontext-Management
 
@@ -721,6 +515,212 @@ Annahmen 1 bis 3 passen so. Eine Änderung am Plan: Zeige die erfassten Sätze a
 ```
 
 > Ergebnis im Tag L8.2-ende.
+
+## Praxis-Werkstatt: Claude Code im Alltag
+
+Die Werkstatt arbeitet mit dem fertigen RepLog (Tag L8.2-ende, 232 Tests) – immer in einer Wegwerf-Kopie. Am einfachsten: replog_Werkstatt-start.zip entpacken oder git checkout L8.2-ende. Andere Lektionen brauchen nur einen eigenen Ordner.
+
+### W.1 · Gute Aufträge schreiben
+
+*Start: L8.2-ende (fertiges RepLog) · zwei Kopien*
+
+#### W.1-a · Der vage Auftrag (Kopie 1) (Demo)
+
+```text
+Mach die Statistik besser.
+```
+
+> Ergebnis: Claude ändert nichts und fragt zurück, was „besser“ heißen soll.
+
+#### W.1-b · Der klare Auftrag (Kopie 2) (Demo)
+
+```text
+Ziel: Auf der Startseite soll unter der Wochenstatistik eine Zeile stehen: „Längstes Training der letzten 7 Tage: X Minuten (Datum)“. Kontext: Wo die Wochenstatistik berechnet wird, findest du selbst heraus. Grenzen: keine neuen Pakete, Texte auf Deutsch, bestehende Tests nicht ändern. Fertig ist es, wenn ein neuer Test die Berechnung prüft, alle Tests grün sind und der Typecheck fehlerfrei ist. Fasse am Ende in drei Sätzen zusammen, was du geändert hast.
+```
+
+> Vier Teile: Ziel · Kontext · Grenzen · Fertig, wenn … Im Video ohne den letzten Satz eingeblendet.
+
+#### W.1-c · Nachdem die Befehle freigegeben sind (Folgefrage)
+
+```text
+Die Befehle sind jetzt freigegeben. Führe npm test und npm run typecheck aus und behebe eventuelle Fehler. Antworte am Ende in zwei Sätzen.
+```
+
+> Danach: 238 von 238 Tests grün.
+
+### W.2 · Fehlersuche mit Claude
+
+*Start: L8.2-ende (fertiges RepLog) · Kopie mit eingebautem Fehler*
+
+#### W.2-a · Fehler nur über das Symptom beschreiben (Demo)
+
+```text
+Die Wochenstatistik zeigt seit heute immer 0 Minuten an, obwohl ich heute und gestern trainiert und beides eingetragen habe. Finde die Ursache, schreib zuerst einen Test, der den Fehler zeigt, und behebe ihn dann. Erkläre am Ende in drei Sätzen, was die Ursache war.
+```
+
+> Zum Nachstellen vorher absichtlich einen Fehler einbauen und committen: in server/stats.ts, Funktion localIsoDate, das „+ 1“ beim Monat entfernen.
+
+### W.3 · Bilder und Screenshots an Claude geben
+
+*Start: L8.2-ende (fertiges RepLog) · Kopie mit eingebautem Fehler*
+
+#### W.3-a · Bildschirmfoto mitgeben (Demo)
+
+```text
+Schau dir das Bildschirmfoto bildschirm.png an. Oben im Kasten fehlt die große Zahl mit den Trainingsminuten – die API liefert aber 45. Finde die Ursache und behebe sie. Erkläre am Ende in zwei Sätzen, was los war.
+```
+
+> Vorher eingebaut: eine CSS-Regel, die die große Zahl unsichtbar macht (.stat b { color: var(--card); }). bildschirm.png ist dein eigenes Bildschirmfoto der Startseite.
+
+### W.4 · Trainingsdaten auswerten – ohne eine Zeile Code
+
+*Start: eigener Ordner mit Daten*
+
+#### W.4-a · Trainingslog auswerten (Demo)
+
+```text
+In training.csv steht mein Trainingslog der letzten 12 Wochen. Werte ihn für mich als Calisthenics-Coach aus: Wie viele Trainingstage pro Woche? Wie haben sich Klimmzüge, Dips und Plank entwickelt? Gab es Wochen, in denen ich weniger trainiert habe? Schreib mir eine kurze Auswertung in auswertung.md und erstelle eine Datei diagramm.html, die die Entwicklung der Klimmzug-Wiederholungen als einfaches Liniendiagramm zeigt – ohne externe Pakete oder Internet.
+```
+
+> training.csv war eine Beispieldatei (12 Wochen, Klimmzüge, Dips, Plank). Nimm deine eigene Tabelle.
+
+#### W.4-b · Zusatz: ganzer Ordner + wiederverwendbares Programm (Demo)
+
+```text
+Im Ordner logs liegen 12 Monatsdateien mit den Klimmzug-Werten meiner drei Athleten. Werte alle zusammen aus: Entwicklung pro Athlet, wer stagniert, fehlen irgendwo Daten? Schreib das Ergebnis in bericht.md. Und ganz wichtig: Speichere dein Auswertungsprogramm als auswertung.py, damit ich es jeden Monat mit einem Befehl wieder laufen lassen kann.
+```
+
+> Zusatz „Nur mit Claude Code“: Ordner logs mit 12 Monatsdateien (Beispieldaten).
+
+### W.5 · Texte und Dokumentation schreiben lassen
+
+*Start: Trainingsplan-Generator v1.1*
+
+#### W.5-a · README und CHANGELOG aus dem Projekt ableiten (Demo)
+
+```text
+Schreib für dieses Projekt zwei Dateien: eine README.md für Leute ohne Programmiererfahrung (Was macht die App, wie starte ich sie, wie benutze ich sie) und eine CHANGELOG.md, die du aus dem Git-Verlauf und den Tags ableitest. Erfinde nichts, was nicht im Code oder im Verlauf steht. Sag mir am Ende, welche Angaben du nicht sicher prüfen konntest.
+```
+
+> Lief in einer frischen Kopie des Trainingsplan-Generators (github.com/udemy-input/trainingsplan, Stand v1.1). Funktioniert genauso in RepLog.
+
+### W.6 · Im Internet recherchieren lassen
+
+*Start: L8.2-ende (fertiges RepLog)*
+
+#### W.6-a · Recherche mit Quellen (Demo)
+
+```text
+Recherchiere im Internet: Welche Node.js-Version ist aktuell die empfohlene LTS-Version, und bis wann wird sie unterstützt? Nutze nur offizielle Quellen, nenne zu jeder Aussage die Quelle als Link, und sag mir, wenn sich Quellen widersprechen oder etwas unsicher ist. Antworte kurz.
+```
+
+#### W.6-b · Zusatz: Recherche am eigenen Projekt prüfen (Demo)
+
+```text
+Laut offizieller Node.js-Seite ist Node 24 die aktuelle LTS-Version, und Node 26 wird am 28.10.2026 LTS. Prüf für dieses Projekt: Welche Node-Version läuft hier gerade? Welche Mindestversion steht in package.json und README? Laufen die Tests mit der installierten Version? Passe die Angabe in der README an, falls sie nicht mehr stimmt, und sag mir, was du geändert hast.
+```
+
+> Zusatz „Nur mit Claude Code“, in RepLog. Die Versionsangaben im Auftrag stammen aus der Recherche vom 18.10.2026 – setze ein, was deine Recherche ergibt.
+
+### W.7 · Eine Webseite von null
+
+*Start: leerer Ordner*
+
+#### W.7-a · Webseite von null (Demo)
+
+```text
+Bau mir in diesem leeren Ordner eine einfache Webseite für eine Calisthenics-Trainingsgruppe im Park. Inhalt: Überschrift, kurzer Willkommenstext, Trainingszeiten Dienstag und Donnerstag 18:30 Uhr, Treffpunkt „Stadtpark, bei den Klimmzugstangen“, was man mitbringen soll, und ein Button „Probetraining anfragen“, der eine E-Mail an gruppe@example.com öffnet. Eine einzige Datei index.html, ohne externe Bibliotheken oder Schriften aus dem Internet, gut lesbar auf dem Handy. Erfinde keine weiteren Fakten wie Preise oder Namen.
+```
+
+> gruppe@example.com ist eine Platzhalter-Adresse.
+
+#### W.7-b · Zusatz: Seite selbst im Browser testen (Demo)
+
+```text
+Öffne index.html selbst im Browser und prüf die Seite wie ein strenger Tester: einmal in Desktop-Breite und einmal in Handy-Breite (390 Pixel). Funktioniert der Button? Ist alles lesbar, läuft nichts über den Rand? Behebe, was du findest, prüfe danach noch einmal im Browser, und speichere den fertigen Stand als Git-Commit mit einer passenden Nachricht.
+```
+
+> Zusatz „Nur mit Claude Code“. Braucht den Playwright-MCP-Server aus Sektion 6 und ein Git-Repo im Ordner.
+
+### W.8 · Claude als zweite Meinung
+
+*Start: eigener Ordner mit Entwurf*
+
+#### W.8-a · Entwurf kritisch prüfen lassen (Demo)
+
+```text
+Lies plan_anfaenger.md. Das ist ein Entwurf für eine Gruppe absoluter Einsteiger. Prüf ihn kritisch wie ein erfahrener Calisthenics-Coach: Was ist gut, was ist riskant, was fehlt? Sortiere nach Wichtigkeit. Ändere die Datei nicht. Sag am Ende ehrlich, was du ohne die Menschen zu kennen nicht beurteilen kannst.
+```
+
+> plan_anfaenger.md war ein Beispiel-Entwurf mit absichtlichen Schwächen.
+
+#### W.8-b · Zusatz: Pläne gegen eigene Regeln prüfen (Demo)
+
+```text
+Prüf alle Trainingspläne im Ordner plaene gegen meine Coaching-Regeln aus der CLAUDE.md. Schreib mir einen Bericht pruefbericht.md: pro Plan, welche Regel verletzt ist und warum, und am Ende eine Übersicht, welche Pläne ich sofort überarbeiten muss. Ändere die Pläne selbst nicht.
+```
+
+> Zusatz „Nur mit Claude Code“: Ordner plaene mit fünf Plänen, die Coaching-Regeln stehen in der CLAUDE.md desselben Ordners.
+
+### W.10 · Code erklären lassen
+
+*Start: L8.2-ende (fertiges RepLog)*
+
+#### W.10-a · Code erklären lassen, ohne Änderungen (Demo)
+
+```text
+Ich bin Anfänger. Erklär mir die Datei server/stats.ts so, dass ich sie verstehe: Was macht sie, Zeile für Zeile in einfachen Worten, und warum gibt es die Funktion localIsoDate überhaupt? Ändere nichts.
+```
+
+### W.11 · Dateien aufräumen lassen
+
+*Start: Übungsordner Downloads*
+
+#### W.11-a · Erst den Plan, noch nichts verschieben (Demo)
+
+```text
+Im Ordner ./Downloads hier im aktuellen Verzeichnis (nicht im Benutzerordner!) ist Chaos. Räum ihn auf: sinnvolle Unterordner nach Art der Dateien, Bildschirmfotos zusätzlich nach Monat. Lösche nichts. Zeig mir zuerst nur deinen Plan als Liste – verschiebe noch nichts.
+```
+
+> Wichtig ist „./Downloads hier im aktuellen Verzeichnis“: Beim ersten Versuch ohne diesen Zusatz hat Claude den Downloads-Ordner im Benutzerverzeichnis genommen. Lege dir einen Übungsordner an.
+
+#### W.11-b · Plan freigeben und umsetzen (Folgefrage)
+
+```text
+Passt so, Dokumente bitte flach lassen, Namen ohne Nummern. Setz den Plan um und zeig mir am Ende die neue Ordnerstruktur.
+```
+
+> Im Video gekürzt eingeblendet.
+
+### W.12 · Vom Kursvideo zum Instagram-Clip
+
+*Start: Ordner mit einer eigenen Aufnahme*
+
+#### W.12-a · Vom Kursvideo zum Instagram-Clip (Demo)
+
+```text
+In aufnahme.mp4 bin ich zu sehen, wie ich über ein Projekt spreche (Querformat, Deutsch). Mach mir daraus einen Instagram-Clip: Finde die stärksten 20 bis 30 Sekunden am Stück, schneide sie heraus, bring sie ins Hochformat 9:16 (mein Gesicht muss im Bild bleiben) und brenn gut lesbare deutsche Untertitel ein, Wort für Wort genau so, wie ich spreche. Nutze dafür nur Werkzeuge, die auf diesem Rechner schon installiert sind (ffmpeg, Python mit faster-whisper). Speichere das Ergebnis als clip.mp4 und erklär mir kurz, warum du genau diese Stelle gewählt hast. Prüfe das Ergebnis selbst, bevor du fertig meldest.
+```
+
+> Setzt voraus, dass ffmpeg und Python mit faster-whisper auf deinem Rechner installiert sind.
+
+### W.13 · Ein Mini-Funnel an einem Nachmittag
+
+*Start: leerer Ordner*
+
+#### W.13-a · Mini-Funnel mit Browser-Test (Demo)
+
+```text
+Bau mir in diesem leeren Ordner einen kompletten kleinen Funnel für ein fiktives Angebot „4-Wochen-Calisthenics-Start“ (Online-Kurs für Einsteiger, Preis noch offen – schreib keinen Preis hin). Bestandteile:
+1. Landingpage mit Nutzenversprechen, Ablauf der 4 Wochen, häufigen Fragen und Button zur Anmeldung.
+2. Anmeldeformular (Name, E-Mail, Erfahrungsstufe). Die Anmeldungen speichert ein kleiner lokaler Server in anmeldungen.csv – nur mit Node.js-Bordmitteln, ohne Zusatzpakete.
+3. Danke-Seite nach dem Absenden.
+4. Drei Begrüßungs-E-Mails als Textvorlagen (Tag 0, Tag 2, Tag 7) im Ordner emails.
+5. Ein Skript, das die Anmeldungen auswertet (Anzahl, Verteilung der Erfahrungsstufen).
+Starte danach den Server, öffne die Seite selbst im Browser und spiel den ganzen Ablauf zweimal als Testnutzer durch – einmal in Desktop-Breite, einmal in Handy-Breite: Landingpage → Formular → Danke-Seite. Prüfe, ob die Anmeldungen in der CSV landen, und lass das Auswertungsskript laufen. Behebe, was nicht funktioniert. Erfinde keine Kundenstimmen, Zahlen oder Namen. Speichere den fertigen Stand als Git-Commit und fasse am Ende zusammen, was du gebaut und geprüft hast.
+```
+
+> Braucht Node.js, den Playwright-MCP-Server aus Sektion 6 und ein Git-Repo im Ordner.
 
 ## Extra: Limits & Kosten im Griff
 
